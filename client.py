@@ -175,20 +175,28 @@ class Gui:
 
     def menu_func(self):
         files = self.path_local.curselection()
+        if not files:
+            tkinter.messagebox.showinfo(title='卧槽', message="你TM先选中一个再删好吗!")
+            return
+
         if len(files) > 1:
             for x in files[::-1]:
                 self.path_local.delete(x)  # 删除选中数据
-            self.label_local.configure(text="本地上传文件： " + str(self.path_local.size()))
+                self.label_local.configure(text="本地上传文件： " + str(self.path_local.size()))
         else:
             self.path_local.delete(self.path_local.curselection())  # 删除选中数据
             self.label_local.configure(text="本地上传文件： " + str(self.path_local.size()))
 
     def get_file_path(self):
-        file_name_local = filedialog.askopenfilename()
-        if file_name_local:
-            if file_name_local not in self.path_local.get(0, tkinter.END):
-                self.path_local.insert(tkinter.END, file_name_local)
-            self.label_local.configure(text="本地上传文件： " + str(self.path_local.size()))
+        file_name_local = filedialog.askopenfilenames()
+        if not file_name_local:
+            return
+
+        for file in file_name_local:
+            if file not in self.path_local.get(0, tkinter.END):
+                self.path_local.insert(tkinter.END, file)
+
+                self.label_local.configure(text="本地上传文件： " + str(self.path_local.size()))
 
     def put_file_to_long(self):
         files = self.path_local.get(0, tkinter.END)
@@ -213,8 +221,9 @@ class Gui:
                 put_file_obj = Xpc(ip, files, long_folder_path)
                 put_file_obj.put_file()
             except Exception:
-                # erro_msg = traceback.format_exc()
-                # print(erro_msg)
+                import traceback
+                erro_msg = traceback.format_exc()
+                print(erro_msg)
                 fail_ips.append(ip)
 
         message = "上传失败\n" + ' \n'.join(fail_ips) if fail_ips else "恭喜上传成功"
@@ -249,7 +258,7 @@ class Gui:
                                       highlightbackground="green", bd=1)
         for ip in self.ips.keys():
             self.lb1_ip.insert(tkinter.END, ip)
-        self.lb1.configure(text="服务器:  " + str(self.lb1_ip.size()) + "\000\000\000" * 4)
+            self.lb1.configure(text="服务器:  " + str(self.lb1_ip.size()) + "\000\000\000" * 4)
         self.lb1_ip.pack(side=tkinter.LEFT, anchor=tkinter.NE, pady=5)
         # 滚动条
         sc = tkinter.Scrollbar(frm1)
