@@ -12,9 +12,8 @@ class ThreadXMLRPCServer(ThreadingMixIn, SimpleXMLRPCServer):
 def file_put(get_file_name, data):
     path = os.path.dirname(get_file_name)
     os.makedirs(path, exist_ok=True)
-    handle = open(get_file_name, 'wb')
-    handle.write(data.data)
-    handle.close()
+    with open(get_file_name, 'wb') as handle:
+        handle.write(data.data)
 
 
 if __name__ == '__main__':

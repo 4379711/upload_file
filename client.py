@@ -21,9 +21,8 @@ class Xpc:
             long_file_path = os.path.join(self.long_folder_path, local_file_name)
 
             # 上传文件
-            put_handle = open(file_path, 'rb')
-            self.server.file_put(long_file_path, xmlrpc.client.Binary(put_handle.read()))
-            put_handle.close()
+            with open(file_path, 'rb') as put_handle:
+                self.server.file_put(long_file_path, xmlrpc.client.Binary(put_handle.read()))
 
     @staticmethod
     def init_server(ip):
