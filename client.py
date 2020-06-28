@@ -6,6 +6,7 @@ from tkinter import filedialog
 import os
 import tkinter.messagebox
 from ip_dict import ips_dict
+import traceback
 
 
 class Xpc:
@@ -220,9 +221,8 @@ class Gui:
                 put_file_obj = Xpc(ip, files, long_folder_path)
                 put_file_obj.put_file()
             except Exception:
-                import traceback
-                erro_msg = traceback.format_exc()
-                print(erro_msg)
+                error_msg = traceback.format_exc()
+                tkinter.messagebox.showinfo(title='失败了', message=error_msg)
                 fail_ips.append(ip)
 
         message = "上传失败\n" + ' \n'.join(fail_ips) if fail_ips else "恭喜上传成功"

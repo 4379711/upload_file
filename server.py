@@ -19,5 +19,4 @@ def file_put(get_file_name, data):
 if __name__ == '__main__':
     server = ThreadXMLRPCServer(('0.0.0.0', 8888), allow_none=True)  # 初始化
     server.register_function(file_put, 'file_put')
-    print("Listening for Client")
     server.serve_forever()  # 保持等待调用状态
