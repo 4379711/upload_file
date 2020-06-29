@@ -3,8 +3,10 @@ import os
 import re
 
 clear_hosts = re.compile("\n| |,|")
-DEFAULT_PATH = r"C:\file_uploads"
-DEFAULT_PATH_dict = {"us": DEFAULT_PATH, "uk": DEFAULT_PATH, "jp": DEFAULT_PATH}
+DEFAULT_PATH_00 = r"C:\file_uploads"
+DEFAULT_PATH_01 = r"D:\file_uploads"
+DEFAULT_PATH_02 = r"D:\file_uploads\Dist"
+DEFAULT_PATH_dict = {"us": DEFAULT_PATH_00, "uk": DEFAULT_PATH_01, "jp": DEFAULT_PATH_02}
 
 # 特殊的ip/域名,指定特殊的路径,就放在这里
 special_path = {
