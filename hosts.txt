@@ -17,13 +17,13 @@ qkwl.amzbsr.top
 onway.amzbsr.top
 mxing.amzbsr.top
 lwisdom.amzbsr.top
-liweixiong.ibsr.top
+//liweixiong.ibsr.top  这个变成公网
 lightstory.amzbsr.top
 laiyu.amzbsr.top
 hzy.amzbsr.top
 hkdifun.amzbsr.top
 gowin.amzbsr.top
-fwusa.amzbsr.top
+//fwusa.amzbsr.top
 flying.amzbsr.top
 eworld.amzbsr.top
 elecsport.amzbsr.top

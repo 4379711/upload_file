@@ -9,6 +9,8 @@ from ip_dict import ips_dict
 from concurrent.futures import ThreadPoolExecutor
 from threading import Lock
 from functools import partial
+# 这个不能删除,不然会报错
+from encodings import idna
 
 # import traceback
 
@@ -221,6 +223,12 @@ class Gui:
 
     # 调用远程服务,传输文件
     def put_file_to_long(self):
+        # 先清空进度条
+        self.clear_progress_bar()
+
+        # 清空完成的任务
+        self.finished_task_count = 0
+
         files = self.path_local.get(0, tkinter.END)
 
         if not self.checked_ips_dict.keys():
@@ -251,8 +259,9 @@ class Gui:
         try:
             future.result()
         except Exception as e:
-            # error_msg = traceback.format_exc()
             tmp_str = f'{future.task_ip}: {e}\n'
+            # error_msg = traceback.format_exc()
+            # tmp_str = f'{future.task_ip}: {error_msg}\n'
             self.failed_task_list.append(tmp_str)
 
         x = 660  # 进度条的长度
@@ -265,25 +274,33 @@ class Gui:
 
         with lock:
             self.finished_task_count += 1
-            # 最后一个完成时任务,变为红色,并显示所有失败任务的上传结果
-            if self.finished_task_count == fill_times:
+            # 最后一个任务完成时,进度条变为红色
+            if self.finished_task_count != fill_times:
+                fill_line = self.canvas.create_rectangle(0, 0, 0, 23, width=0, fill="green")
+            else:
                 fill_line = self.canvas.create_rectangle(0, 0, 0, 23, width=0, fill="red")
+            self.canvas.coords(fill_line, (0, 0, step_len * self.finished_task_count, 23))
+            self.tk.update()
+
+        # 最后一个任务完成时,弹窗展示上传结果
+        if self.finished_task_count == fill_times:
+
+            if self.failed_task_list:
                 error_msg = "".join(self.failed_task_list)
-                self.canvas.coords(fill_line, (0, 0, step_len * self.finished_task_count, 23))
-                self.tk.update()
                 tkinter.messagebox.showerror(title='上传失败', message=error_msg)
             else:
-                fill_line = self.canvas.create_rectangle(0, 0, 0, 23, width=0, fill="green")
+                tkinter.messagebox.showinfo(title='上传成功', message="上传所有文件成功")
 
-                self.canvas.coords(fill_line, (0, 0, step_len * self.finished_task_count, 23))
-                self.tk.update()
-
-    # 清空所有选框
-    def clear_all(self):
+    def clear_progress_bar(self):
         # 清空进度条
         fill_line = self.canvas.create_rectangle(0, 0, 0, 23, width=0, fill="white")
         x = 660
         self.canvas.coords(fill_line, (0, 0, x, 23))
+
+    # 清空所有选框
+    def clear_all(self):
+        # 清空进度条
+        self.clear_progress_bar()
 
         # 清空远程文件路径
         self.path_long.delete(0, tkinter.END)
@@ -469,7 +486,6 @@ class Gui:
         # ##########################################
 
         # 设置下载进度条
-        # tkinter.Label(tk, text='上传进度:', ).place(x=70, y=200)
         self.canvas = tkinter.Canvas(tk, width=650, height=22, bg="white")
         self.canvas.place(x=70, y=200)
 

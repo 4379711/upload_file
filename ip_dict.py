@@ -23,7 +23,7 @@ def replace_(host_str):
 # 读取hosts.txt中配置的域名
 file_host = []
 if os.path.exists("hosts.txt"):
-    with open("hosts.txt", 'r') as f:
+    with open("hosts.txt", 'r', encoding="utf-8") as f:
         file_host = f.readlines()
 
 ips_dict = {}.fromkeys(map(replace_, file_host), DEFAULT_PATH_dict)
