@@ -17,7 +17,7 @@ special_path = {
 # 清理文件中的特殊符号
 def replace_(host_str):
     tmp = clear_hosts.sub('', host_str)
-    return tmp
+    return "fuck" if tmp.startswith("/") else tmp
 
 
 # 读取hosts.txt中配置的域名
@@ -28,4 +28,4 @@ if os.path.exists("hosts.txt"):
 
 ips_dict = {}.fromkeys(map(replace_, file_host), DEFAULT_PATH_dict)
 ips_dict.update(special_path)
-# print(ips_dict)
+ips_dict.pop("fuck", None)
