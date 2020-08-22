@@ -4,7 +4,7 @@ import re
 
 clear_hosts = re.compile("\n| |,|")
 DEFAULT_PATH_00 = r"C:\file_uploads"
-DEFAULT_PATH_01 = r"D:\file_uploads"
+DEFAULT_PATH_01 = r"C:\AccountClient"
 DEFAULT_PATH_02 = r"D:\file_uploads\Dist"
 DEFAULT_PATH_dict = {"us": DEFAULT_PATH_00, "uk": DEFAULT_PATH_01, "jp": DEFAULT_PATH_02}
 

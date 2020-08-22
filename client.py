@@ -287,6 +287,7 @@ class Gui:
 
             if self.failed_task_list:
                 error_msg = "".join(self.failed_task_list)
+                self.failed_task_list = []
                 tkinter.messagebox.showerror(title='上传失败', message=error_msg)
             else:
                 tkinter.messagebox.showinfo(title='上传成功', message="上传所有文件成功")
